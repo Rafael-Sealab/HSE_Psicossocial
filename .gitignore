@@ -6,3 +6,18 @@ backend/app/frontend/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+# Configurações locais e credenciais
+.env
+.env.*
+!.env.example
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
+
+# Artefatos locais de validação
+.qa-*/
+
+# Arquivos temporários e relatórios gerados
+*.tmp
+~$*

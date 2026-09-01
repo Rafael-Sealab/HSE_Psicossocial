@@ -1,4 +1,33 @@
-# Full Stack FastAPI Template
+# Sistema Psicossocial Sealab
+
+MVP para gestão do ciclo DRPS e AEP-PS: cadastros organizacionais, importação de respostas, cálculo por dimensão, avaliação técnica por GHE, matriz qualitativa DRPS × AEP-PS, plano de ação e preparação de relatórios.
+
+## Estado da implementação
+
+- Backend FastAPI/PostgreSQL com autenticação, modelos multiempresa e migração Alembic.
+- Regras auditáveis extraídas da planilha original: 33 itens, 10 dimensões, polaridade, P1–P4, severidade e matriz P×S.
+- AEP-PS com 53 itens e exigência de evidência para escores 2 e 3.
+- Integração qualitativa DRPS × AEP-PS sem média matemática.
+- Frontend React/TypeScript com dashboard, cadastros, importação, resultados, AEP-PS, matriz, plano de ação e relatórios.
+
+Os dados exibidos inicialmente no frontend são demonstrativos. Os endpoints de cadastro e cálculo ficam em `/api/v1/psychosocial` e exigem autenticação.
+
+## Decisões que precisam de validação técnica
+
+- O mínimo de respondentes permanece configurável; o valor inicial `5` é provisório.
+- O limiar formal entre DRPS favorável e desfavorável ainda deve ser aprovado.
+- A agregação AEP-PS por dimensão usa o pior item como critério operacional do MVP, sem alterar a classificação final do PGR.
+- A exportação Word/PDF e os formatos de integração PGR/PCMSO pertencem à fase seguinte.
+
+## Execução local
+
+Copie `.env.example` para `.env`, ajuste as credenciais e execute `docker compose up --watch`. A documentação da API fica em `http://localhost:8000/docs` e a interface em `http://localhost:5173`.
+
+---
+
+## Base técnica
+
+Este projeto foi iniciado a partir do Full Stack FastAPI Template.
 
 [![Test Docker Compose](../../actions/workflows/test-docker-compose.yml/badge.svg)](../../actions/workflows/test-docker-compose.yml)
 [![Test Backend](../../actions/workflows/test-backend.yml/badge.svg)](../../actions/workflows/test-backend.yml)

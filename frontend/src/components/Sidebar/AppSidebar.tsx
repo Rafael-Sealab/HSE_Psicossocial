@@ -1,4 +1,4 @@
-import { Briefcase, Home, Users } from "lucide-react"
+import { BarChart3, Building2, ClipboardCheck, FileDown, GitCompareArrows, Home, ListChecks, Upload, Users } from "lucide-react"
 
 import { SidebarAppearance } from "@/components/Common/Appearance"
 import { Logo } from "@/components/Common/Logo"
@@ -13,8 +13,14 @@ import { type Item, Main } from "./Main"
 import { User } from "./User"
 
 const baseItems: Item[] = [
-  { icon: Home, title: "Dashboard", path: "/" },
-  { icon: Briefcase, title: "Items", path: "/items" },
+  { icon: Home, title: "Visão geral", path: "/" },
+  { icon: Building2, title: "Cadastros", path: "/cadastros" },
+  { icon: Upload, title: "Importação DRPS", path: "/importacao" },
+  { icon: BarChart3, title: "Resultados DRPS", path: "/resultados" },
+  { icon: ClipboardCheck, title: "AEP-PS", path: "/aep-ps" },
+  { icon: GitCompareArrows, title: "Matriz integrada", path: "/matriz" },
+  { icon: ListChecks, title: "Plano de ação", path: "/plano-de-acao" },
+  { icon: FileDown, title: "Relatórios", path: "/relatorios" },
 ]
 
 export function AppSidebar() {

@@ -18,6 +18,13 @@ import { Route as LayoutIndexRouteImport } from './routes/_layout/index'
 import { Route as LayoutAdminRouteImport } from './routes/_layout/admin'
 import { Route as LayoutItemsRouteImport } from './routes/_layout/items'
 import { Route as LayoutSettingsRouteImport } from './routes/_layout/settings'
+import { Route as LayoutAepPsRouteImport } from './routes/_layout/aep-ps'
+import { Route as LayoutCadastrosRouteImport } from './routes/_layout/cadastros'
+import { Route as LayoutImportacaoRouteImport } from './routes/_layout/importacao'
+import { Route as LayoutMatrizRouteImport } from './routes/_layout/matriz'
+import { Route as LayoutPlanoDeAcaoRouteImport } from './routes/_layout/plano-de-acao'
+import { Route as LayoutRelatoriosRouteImport } from './routes/_layout/relatorios'
+import { Route as LayoutResultadosRouteImport } from './routes/_layout/resultados'
 
 const LayoutRoute = LayoutRouteImport.update({
   id: '/_layout',
@@ -63,6 +70,13 @@ const LayoutSettingsRoute = LayoutSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => LayoutRoute,
 } as any)
+const LayoutAepPsRoute = LayoutAepPsRouteImport.update({ id: '/aep-ps', path: '/aep-ps', getParentRoute: () => LayoutRoute } as any)
+const LayoutCadastrosRoute = LayoutCadastrosRouteImport.update({ id: '/cadastros', path: '/cadastros', getParentRoute: () => LayoutRoute } as any)
+const LayoutImportacaoRoute = LayoutImportacaoRouteImport.update({ id: '/importacao', path: '/importacao', getParentRoute: () => LayoutRoute } as any)
+const LayoutMatrizRoute = LayoutMatrizRouteImport.update({ id: '/matriz', path: '/matriz', getParentRoute: () => LayoutRoute } as any)
+const LayoutPlanoDeAcaoRoute = LayoutPlanoDeAcaoRouteImport.update({ id: '/plano-de-acao', path: '/plano-de-acao', getParentRoute: () => LayoutRoute } as any)
+const LayoutRelatoriosRoute = LayoutRelatoriosRouteImport.update({ id: '/relatorios', path: '/relatorios', getParentRoute: () => LayoutRoute } as any)
+const LayoutResultadosRoute = LayoutResultadosRouteImport.update({ id: '/resultados', path: '/resultados', getParentRoute: () => LayoutRoute } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof LayoutIndexRoute
@@ -73,6 +87,13 @@ export interface FileRoutesByFullPath {
   '/admin': typeof LayoutAdminRoute
   '/items': typeof LayoutItemsRoute
   '/settings': typeof LayoutSettingsRoute
+  '/aep-ps': typeof LayoutAepPsRoute
+  '/cadastros': typeof LayoutCadastrosRoute
+  '/importacao': typeof LayoutImportacaoRoute
+  '/matriz': typeof LayoutMatrizRoute
+  '/plano-de-acao': typeof LayoutPlanoDeAcaoRoute
+  '/relatorios': typeof LayoutRelatoriosRoute
+  '/resultados': typeof LayoutResultadosRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
@@ -82,6 +103,13 @@ export interface FileRoutesByTo {
   '/admin': typeof LayoutAdminRoute
   '/items': typeof LayoutItemsRoute
   '/settings': typeof LayoutSettingsRoute
+  '/aep-ps': typeof LayoutAepPsRoute
+  '/cadastros': typeof LayoutCadastrosRoute
+  '/importacao': typeof LayoutImportacaoRoute
+  '/matriz': typeof LayoutMatrizRoute
+  '/plano-de-acao': typeof LayoutPlanoDeAcaoRoute
+  '/relatorios': typeof LayoutRelatoriosRoute
+  '/resultados': typeof LayoutResultadosRoute
   '/': typeof LayoutIndexRoute
 }
 export interface FileRoutesById {
@@ -94,6 +122,13 @@ export interface FileRoutesById {
   '/_layout/admin': typeof LayoutAdminRoute
   '/_layout/items': typeof LayoutItemsRoute
   '/_layout/settings': typeof LayoutSettingsRoute
+  '/_layout/aep-ps': typeof LayoutAepPsRoute
+  '/_layout/cadastros': typeof LayoutCadastrosRoute
+  '/_layout/importacao': typeof LayoutImportacaoRoute
+  '/_layout/matriz': typeof LayoutMatrizRoute
+  '/_layout/plano-de-acao': typeof LayoutPlanoDeAcaoRoute
+  '/_layout/relatorios': typeof LayoutRelatoriosRoute
+  '/_layout/resultados': typeof LayoutResultadosRoute
   '/_layout/': typeof LayoutIndexRoute
 }
 export interface FileRouteTypes {
@@ -107,6 +142,13 @@ export interface FileRouteTypes {
     | '/admin'
     | '/items'
     | '/settings'
+    | '/aep-ps'
+    | '/cadastros'
+    | '/importacao'
+    | '/matriz'
+    | '/plano-de-acao'
+    | '/relatorios'
+    | '/resultados'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
@@ -116,6 +158,13 @@ export interface FileRouteTypes {
     | '/admin'
     | '/items'
     | '/settings'
+    | '/aep-ps'
+    | '/cadastros'
+    | '/importacao'
+    | '/matriz'
+    | '/plano-de-acao'
+    | '/relatorios'
+    | '/resultados'
     | '/'
   id:
     | '__root__'
@@ -127,6 +176,13 @@ export interface FileRouteTypes {
     | '/_layout/admin'
     | '/_layout/items'
     | '/_layout/settings'
+    | '/_layout/aep-ps'
+    | '/_layout/cadastros'
+    | '/_layout/importacao'
+    | '/_layout/matriz'
+    | '/_layout/plano-de-acao'
+    | '/_layout/relatorios'
+    | '/_layout/resultados'
     | '/_layout/'
   fileRoutesById: FileRoutesById
 }
@@ -203,6 +259,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutSettingsRouteImport
       parentRoute: typeof LayoutRoute
     }
+    '/_layout/aep-ps': { id: '/_layout/aep-ps'; path: '/aep-ps'; fullPath: '/aep-ps'; preLoaderRoute: typeof LayoutAepPsRouteImport; parentRoute: typeof LayoutRoute }
+    '/_layout/cadastros': { id: '/_layout/cadastros'; path: '/cadastros'; fullPath: '/cadastros'; preLoaderRoute: typeof LayoutCadastrosRouteImport; parentRoute: typeof LayoutRoute }
+    '/_layout/importacao': { id: '/_layout/importacao'; path: '/importacao'; fullPath: '/importacao'; preLoaderRoute: typeof LayoutImportacaoRouteImport; parentRoute: typeof LayoutRoute }
+    '/_layout/matriz': { id: '/_layout/matriz'; path: '/matriz'; fullPath: '/matriz'; preLoaderRoute: typeof LayoutMatrizRouteImport; parentRoute: typeof LayoutRoute }
+    '/_layout/plano-de-acao': { id: '/_layout/plano-de-acao'; path: '/plano-de-acao'; fullPath: '/plano-de-acao'; preLoaderRoute: typeof LayoutPlanoDeAcaoRouteImport; parentRoute: typeof LayoutRoute }
+    '/_layout/relatorios': { id: '/_layout/relatorios'; path: '/relatorios'; fullPath: '/relatorios'; preLoaderRoute: typeof LayoutRelatoriosRouteImport; parentRoute: typeof LayoutRoute }
+    '/_layout/resultados': { id: '/_layout/resultados'; path: '/resultados'; fullPath: '/resultados'; preLoaderRoute: typeof LayoutResultadosRouteImport; parentRoute: typeof LayoutRoute }
   }
 }
 
@@ -211,6 +274,13 @@ interface LayoutRouteChildren {
   LayoutItemsRoute: typeof LayoutItemsRoute
   LayoutSettingsRoute: typeof LayoutSettingsRoute
   LayoutIndexRoute: typeof LayoutIndexRoute
+  LayoutAepPsRoute: typeof LayoutAepPsRoute
+  LayoutCadastrosRoute: typeof LayoutCadastrosRoute
+  LayoutImportacaoRoute: typeof LayoutImportacaoRoute
+  LayoutMatrizRoute: typeof LayoutMatrizRoute
+  LayoutPlanoDeAcaoRoute: typeof LayoutPlanoDeAcaoRoute
+  LayoutRelatoriosRoute: typeof LayoutRelatoriosRoute
+  LayoutResultadosRoute: typeof LayoutResultadosRoute
 }
 
 const LayoutRouteChildren: LayoutRouteChildren = {
@@ -218,6 +288,13 @@ const LayoutRouteChildren: LayoutRouteChildren = {
   LayoutItemsRoute: LayoutItemsRoute,
   LayoutSettingsRoute: LayoutSettingsRoute,
   LayoutIndexRoute: LayoutIndexRoute,
+  LayoutAepPsRoute: LayoutAepPsRoute,
+  LayoutCadastrosRoute: LayoutCadastrosRoute,
+  LayoutImportacaoRoute: LayoutImportacaoRoute,
+  LayoutMatrizRoute: LayoutMatrizRoute,
+  LayoutPlanoDeAcaoRoute: LayoutPlanoDeAcaoRoute,
+  LayoutRelatoriosRoute: LayoutRelatoriosRoute,
+  LayoutResultadosRoute: LayoutResultadosRoute,
 }
 
 const LayoutRouteWithChildren =
