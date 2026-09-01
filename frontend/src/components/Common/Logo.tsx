@@ -16,14 +16,14 @@ export function Logo({
   const fullLogo = (
     <span
       className={cn(
-        "flex w-full items-center justify-center rounded-xl bg-white px-3 py-2 shadow-sm ring-1 ring-black/5",
+        "flex w-full items-center justify-center rounded-xl bg-[#c9ded7] px-2 py-2 shadow-sm ring-1 ring-[#8fb9aa]/40",
         className,
       )}
     >
       <img
         src="/assets/images/hse-psicossocial-logo.png"
         alt="HSE Psicossocial"
-        className="h-14 w-auto max-w-full object-contain"
+        className="h-16 w-auto max-w-full object-contain"
       />
     </span>
   )
@@ -31,7 +31,7 @@ export function Logo({
   const iconLogo = (
     <span
       className={cn(
-        "flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white p-1 shadow-sm ring-1 ring-black/5",
+        "flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-[#c9ded7] p-1 shadow-sm ring-1 ring-[#8fb9aa]/40",
         className,
       )}
       aria-label="HSE Psicossocial"
