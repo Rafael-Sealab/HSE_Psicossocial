@@ -12,7 +12,7 @@ import { actions, dimensions } from "@/lib/psychosocial"
 
 export const Route = createFileRoute("/_layout/")({
   component: Dashboard,
-  head: () => ({ meta: [{ title: "Visão geral | DRPS Sealab" }] }),
+  head: () => ({ meta: [{ title: "Visão geral | HSE Psicossocial" }] }),
 })
 
 function Dashboard() {
