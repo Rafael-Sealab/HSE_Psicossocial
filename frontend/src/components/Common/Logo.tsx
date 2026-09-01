@@ -13,15 +13,39 @@ export function Logo({
   className,
   asLink = true,
 }: LogoProps) {
+  const fullLogo = (
+    <img
+      src="/assets/images/hse-psicossocial-logo.png"
+      alt="HSE Psicossocial"
+      className={cn("h-11 w-auto max-w-[230px] object-contain", className)}
+    />
+  )
+
+  const iconLogo = (
+    <span
+      className={cn(
+        "flex h-9 w-9 shrink-0 items-center overflow-hidden",
+        className,
+      )}
+      aria-label="HSE Psicossocial"
+    >
+      <img
+        src="/assets/images/hse-psicossocial-logo.png"
+        alt=""
+        className="h-full w-auto max-w-none object-left"
+      />
+    </span>
+  )
+
   const content =
     variant === "responsive" ? (
       <>
-        <span className={cn("sealab-logo group-data-[collapsible=icon]:hidden", className)}><b>SEA</b>LAB <small>Saúde ocupacional</small></span>
-        <span className={cn("sealab-mark hidden group-data-[collapsible=icon]:grid", className)}>S</span>
+        <span className="group-data-[collapsible=icon]:hidden">{fullLogo}</span>
+        <span className="hidden group-data-[collapsible=icon]:flex">
+          {iconLogo}
+        </span>
       </>
-    ) : (
-      <span className={cn(variant === "full" ? "sealab-logo" : "sealab-mark", className)}>{variant === "full" ? <><b>SEA</b>LAB</> : "S"}</span>
-    )
+    ) : variant === "full" ? fullLogo : iconLogo
 
   if (!asLink) {
     return content
