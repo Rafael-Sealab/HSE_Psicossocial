@@ -37,12 +37,8 @@ services:
   adminer:
     restart: always
     labels:
-      # Route HTTPS traffic for the Adminer subdomain
-      - traefik.http.routers.adminer-https.rule=Host(`adminer.${DOMAIN:?Variable not set}`)
-      - traefik.http.routers.adminer-https.entrypoints=https
-      - traefik.http.routers.adminer-https.tls=true
-      # Use the Let's Encrypt resolver
-      - traefik.http.routers.adminer-https.tls.certresolver=le
+      # O painel do banco não deve ficar acessível pela internet.
+      - traefik.enable=false
 
   backend:
     restart: always

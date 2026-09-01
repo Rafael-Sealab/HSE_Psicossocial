@@ -2,6 +2,9 @@ name: Deploy with Docker Compose
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
 
 permissions:
   contents: read
