@@ -14,17 +14,24 @@ export function Logo({
   asLink = true,
 }: LogoProps) {
   const fullLogo = (
-    <img
-      src="/assets/images/hse-psicossocial-logo.png"
-      alt="HSE Psicossocial"
-      className={cn("h-11 w-auto max-w-[230px] object-contain", className)}
-    />
+    <span
+      className={cn(
+        "flex w-full items-center justify-center rounded-xl bg-white px-3 py-2 shadow-sm ring-1 ring-black/5",
+        className,
+      )}
+    >
+      <img
+        src="/assets/images/hse-psicossocial-logo.png"
+        alt="HSE Psicossocial"
+        className="h-14 w-auto max-w-full object-contain"
+      />
+    </span>
   )
 
   const iconLogo = (
     <span
       className={cn(
-        "flex h-9 w-9 shrink-0 items-center overflow-hidden",
+        "flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white p-1 shadow-sm ring-1 ring-black/5",
         className,
       )}
       aria-label="HSE Psicossocial"
