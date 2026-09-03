@@ -27,7 +27,7 @@ const riskMeaning: Record<string, string> = {
   crítico: "condição que requer avaliação e intervenção imediata, com definição formal de responsáveis e controles",
 }
 export type AepReportBundle = { ghe: Ghe; sectorName: string; assessment: AepAssessment | null; evidences: AepEvidence[] }
-type Input = { company: Company; cycle: AssessmentCycle; structure: CompanyStructure; drps: DrpsResult; aep: AepReportBundle[]; mode: "rtirp" | "integration"; logoData?: ArrayBuffer; flowData?: ArrayBuffer }
+type Input = { company: Company; cycle: AssessmentCycle; structure: CompanyStructure; drps: DrpsResult; aep: AepReportBundle[]; mode: "rtirp" | "integration"; logoData?: ArrayBuffer; flowData?: ArrayBuffer; coverData?: ArrayBuffer }
 
 function run(value: string, bold = false, color = INK, size = 19) { return new TextRun({ text: value, bold, color, size, font: "Arial" }) }
 function para(value: string, options: { bold?: boolean; color?: string; size?: number; align?: (typeof AlignmentType)[keyof typeof AlignmentType]; before?: number; after?: number } = {}) { return new Paragraph({ alignment: options.align ?? AlignmentType.JUSTIFIED, spacing: { before: options.before ?? 0, after: options.after ?? 110, line: 276 }, children: [run(value, options.bold, options.color, options.size)] }) }
@@ -40,7 +40,7 @@ function headerRow(labels: string[], widths: number[]) { return new TableRow({ t
 function safe(value: string) { return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "") }
 
 async function build(input: Input) {
-  const { company, cycle, structure, drps, aep, mode, logoData, flowData } = input
+  const { company, cycle, structure, drps, aep, mode, logoData, flowData, coverData } = input
   const completed = aep.filter((item) => item.assessment?.completed_at)
   const pending = aep.filter((item) => !item.assessment?.completed_at)
   const allEvidence = aep.reduce((sum, item) => sum + item.evidences.length, 0)
@@ -79,7 +79,14 @@ async function build(input: Input) {
   const blankFooter = new Footer({ children: [new Paragraph({})] })
   const title = mode === "rtirp" ? "RELATÓRIO TÉCNICO INTEGRADO DE RISCOS PSICOSSOCIAIS" : "ORIENTAÇÕES PARA INTEGRAÇÃO AO GRO/PGR"
   const reportDate = new Date(`${cycle.assessment_date}T12:00:00`).toLocaleDateString("pt-BR")
-  const cover = mode === "rtirp" ? [
+  const cover = mode === "rtirp" && coverData ? [
+    new Paragraph({ alignment: AlignmentType.CENTER, spacing: { before: 0, after: 0 }, children: [new ImageRun({ data: coverData, type: "png", transformation: { width: 718, height: 1016 } })] }),
+    breakPage(),
+    para("SUMÁRIO", { bold: true, color: BLUE, size: 30, align: AlignmentType.CENTER, after: 260 }),
+    new TableOfContents("Sumário", { hyperlink: true, headingStyleRange: "1-1" }),
+    para("Nota: o sumário e a numeração das páginas são atualizados automaticamente ao abrir o arquivo no Microsoft Word.", { color: MUTED, size: 16, before: 260, after: 0 }),
+    breakPage(),
+  ] : mode === "rtirp" ? [
     para("", { after: 220 }),
     new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 700 }, children: logoData ? [new ImageRun({ data: logoData, type: "png", transformation: { width: 260, height: 85 } })] : [run("SEALAB MEDICINA OCUPACIONAL", true, BLUE, 28)] }),
     para("RELATÓRIO TÉCNICO INTEGRADO", { bold: true, color: BLUE, size: 42, align: AlignmentType.CENTER, after: 70 }),
@@ -176,9 +183,65 @@ async function build(input: Input) {
 export async function generateIntegratedWordReport(input: Omit<Input, "logoData">) {
   const logoData = await fetch("/assets/images/sealab-logo-report.png").then((response) => response.arrayBuffer()).catch(() => undefined)
   const flowData = input.mode === "rtirp" ? await fetch("/assets/images/fluxo-metodologico-rtirp.png").then((response) => response.arrayBuffer()).catch(() => undefined) : undefined
-  const blob = await build({ ...input, logoData, flowData })
+  const coverBackground = input.mode === "rtirp" ? await fetch("/assets/images/capa-rtirp-hse.png").then((response) => response.arrayBuffer()).catch(() => undefined) : undefined
+  const coverData = coverBackground ? await composeCover(coverBackground, logoData, input.company, input.cycle) : undefined
+  const blob = await build({ ...input, logoData, flowData, coverData })
   const link = document.createElement("a")
   link.href = URL.createObjectURL(blob)
   link.download = `${input.mode === "rtirp" ? "RTIRP" : "Integracao-PGR"}-${safe(input.company.trade_name || input.company.legal_name)}-${safe(input.cycle.name)}.docx`
   link.click(); setTimeout(() => URL.revokeObjectURL(link.href), 1000)
+}
+
+async function composeCover(backgroundData: ArrayBuffer, logoData: ArrayBuffer | undefined, company: Company, cycle: AssessmentCycle) {
+  const loadImage = (data: ArrayBuffer) => new Promise<HTMLImageElement>((resolve, reject) => {
+    const image = new Image()
+    const url = URL.createObjectURL(new Blob([data]))
+    image.onload = () => { URL.revokeObjectURL(url); resolve(image) }
+    image.onerror = () => { URL.revokeObjectURL(url); reject(new Error("Não foi possível carregar a arte da capa.")) }
+    image.src = url
+  })
+  const canvas = document.createElement("canvas")
+  canvas.width = 1240
+  canvas.height = 1754
+  const context = canvas.getContext("2d")
+  if (!context) return undefined
+  const background = await loadImage(backgroundData)
+  context.drawImage(background, 0, 0, canvas.width, canvas.height)
+  if (logoData) {
+    const logo = await loadImage(logoData)
+    const width = 300
+    context.drawImage(logo, 90, 85, width, width * (logo.height / logo.width))
+  }
+  context.fillStyle = "#062638"
+  context.font = "700 57px Arial"
+  context.fillText("RELATÓRIO TÉCNICO", 92, 430)
+  context.fillText("INTEGRADO DE RISCOS", 92, 500)
+  context.fillText("PSICOSSOCIAIS", 92, 570)
+  context.fillStyle = "#315B70"
+  context.font = "400 25px Arial"
+  context.fillText("DRPS × AEP-PS × GRO/PGR", 95, 625)
+  context.fillStyle = "rgba(244,247,245,0.93)"
+  context.strokeStyle = "#9ABCAA"
+  context.lineWidth = 2
+  context.beginPath()
+  context.roundRect(82, 745, 760, 390, 22)
+  context.fill()
+  context.stroke()
+  const writeField = (label: string, value: string, y: number) => {
+    context.fillStyle = "#2A766F"
+    context.font = "700 18px Arial"
+    context.fillText(label, 115, y)
+    context.fillStyle = "#062638"
+    context.font = "600 24px Arial"
+    const safeValue = value || "—"
+    context.fillText(safeValue.length > 47 ? `${safeValue.slice(0, 46)}…` : safeValue, 115, y + 34)
+  }
+  writeField("EMPRESA", company.legal_name, 800)
+  writeField("CNPJ", company.cnpj, 885)
+  writeField("CICLO AVALIATIVO", cycle.name, 970)
+  writeField("DATA DA AVALIAÇÃO", new Date(`${cycle.assessment_date}T12:00:00`).toLocaleDateString("pt-BR"), 1055)
+  context.fillStyle = "#F4F7F5"
+  context.font = "700 18px Arial"
+  context.fillText("METODOLOGIA INTEGRADA SEALAB  •  REVISÃO 00", 88, 1650)
+  return new Promise<ArrayBuffer | undefined>((resolve) => canvas.toBlob(async (blob) => resolve(blob ? await blob.arrayBuffer() : undefined), "image/png"))
 }
